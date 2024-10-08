@@ -4,6 +4,7 @@
 # This source code is licensed under the license found in the
 # LICENSE file in the root directory of this source tree.
 
+import warnings
 import logging
 
 from typing import List, Optional, Tuple, Union
@@ -399,7 +400,7 @@ class SAM2ImagePredictor:
             if concat_points is not None:
                 if box_coords.size(0) > 1 or box_labels.size(0) > 1:
                     warnings.warn("If you use a combination of box and point as a prompt, only a single "
-                                 "combination is supported. Automatically uses only the first combination.")
+                                  "combination is supported. Automatically uses only the first combination.")
                     concat_points = (concat_points[0][:, :1, :], concat_points[1][:, :1])
                     box_labels = box_labels[:1]
                     box_coords = box_coords[:1]
