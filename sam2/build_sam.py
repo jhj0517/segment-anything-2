@@ -70,6 +70,7 @@ HF_MODEL_ID_TO_FILENAMES = {
 
 def build_sam2(
     config_file,
+    config_dir=None,
     ckpt_path=None,
     device="cuda",
     mode="eval",
@@ -87,6 +88,7 @@ def build_sam2(
             "++model.sam_mask_decoder_extra_args.dynamic_multimask_stability_thresh=0.98",
         ]
     # Read config and init model
+    config_name = os.path.join(config_dir, config_file) if config_dir is not None else config_file
     cfg = compose(config_name=config_file, overrides=hydra_overrides_extra)
     OmegaConf.resolve(cfg)
     model = instantiate(cfg.model, _recursive_=True)
