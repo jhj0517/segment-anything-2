@@ -89,7 +89,7 @@ def build_sam2(
         ]
     # Read config and init model
     config_name = os.path.join(config_dir, config_file) if config_dir is not None else config_file
-    cfg = compose(config_name=config_file, overrides=hydra_overrides_extra)
+    cfg = compose(config_name=config_name, overrides=hydra_overrides_extra)
     OmegaConf.resolve(cfg)
     model = instantiate(cfg.model, _recursive_=True)
     _load_checkpoint(model, ckpt_path)
@@ -101,6 +101,7 @@ def build_sam2(
 
 def build_sam2_video_predictor(
     config_file,
+    config_dir=None,
     ckpt_path=None,
     device="cuda",
     mode="eval",
@@ -126,7 +127,8 @@ def build_sam2_video_predictor(
     hydra_overrides.extend(hydra_overrides_extra)
 
     # Read config and init model
-    cfg = compose(config_name=config_file, overrides=hydra_overrides)
+    config_name = os.path.join(config_dir, config_file) if config_dir is not None else config_file
+    cfg = compose(config_name=config_name, overrides=hydra_overrides)
     OmegaConf.resolve(cfg)
     model = instantiate(cfg.model, _recursive_=True)
     _load_checkpoint(model, ckpt_path)
